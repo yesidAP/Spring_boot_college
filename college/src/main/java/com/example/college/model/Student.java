@@ -31,7 +31,9 @@ public class Student {
 
     @Column(name = "last_name")
     private String lastName;
+    private Integer age;
     private Character gender;
+
 
     @Column(name = "entry_date")
     private Date entryDate;

@@ -30,7 +30,7 @@ public interface ISubjectService {
      * @param subjectPostDTO Object dto of subject to save in database.
      * @return The subject that was recently created in DTO form.
      */
-    SubjectPostDTO postSubject(SubjectPostDTO subjectPostDTO);
+    SubjectGetDTO postSubject(SubjectPostDTO subjectPostDTO);
 
     /**
      *Update an existing element of the subject entity
@@ -40,7 +40,7 @@ public interface ISubjectService {
      * @param SubjectPostDTO Object dto of subject to update in database.
      * @return The subject that was recently created in DTO form.
      */
-    SubjectPostDTO putSubject(Long id, SubjectPostDTO SubjectPostDTO);
+    SubjectGetDTO putSubject(Long id, SubjectPostDTO SubjectPostDTO);
 
     /**
      * Delete an existing element of the subject entity

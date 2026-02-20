@@ -1,6 +1,5 @@
 package com.example.college.service.interfacesServ;
 
-import com.example.college.dto.CareerDTO;
 import com.example.college.dto.CourseGetDTO;
 import com.example.college.dto.CoursePostDTO;
 
@@ -29,7 +28,7 @@ public interface ICourseService {
      * @param coursePostDTO Object dto of course to save in database.
      * @return The course that was recently created in DTO form.
      */
-    CoursePostDTO postCourse(CoursePostDTO coursePostDTO);
+    CourseGetDTO postCourse(CoursePostDTO coursePostDTO);
 
     /**
      *Update an existing element of the course entity
@@ -39,7 +38,7 @@ public interface ICourseService {
      * @param coursePostDTO Object dto of course to update in database.
      * @return The course that was recently created in DTO form.
      */
-    CoursePostDTO putCourse(Long id, CoursePostDTO coursePostDTO);
+    CourseGetDTO putCourse(Long id, CoursePostDTO coursePostDTO);
 
     /**
      * Delete an existing element of the course entity

@@ -2,7 +2,6 @@ package com.example.college.service.interfacesServ;
 
 import com.example.college.dto.StudentPostDTO;
 import com.example.college.dto.StudentGetDTO;
-import com.example.college.dto.StudentPostDTO;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public interface IStudentService {
      * @param studentPostDTO Object dto of student to save in database.
      * @return The student that was recently created in DTO form.
      */
-    StudentPostDTO postStudent(StudentPostDTO studentPostDTO);
+    StudentGetDTO postStudent(StudentPostDTO studentPostDTO);
 
     /**
      *Update an existing element of the student entity
@@ -39,7 +38,7 @@ public interface IStudentService {
      * @param studentPostDTO Object dto of student to update in database.
      * @return The student that was recently created in DTO form.
      */
-    StudentPostDTO putStudent(Long id, StudentPostDTO studentPostDTO);
+    StudentGetDTO putStudent(Long id, StudentPostDTO studentPostDTO);
 
     /**
      * Delete an existing element of the student entity
