@@ -45,4 +45,19 @@ public class MapperCareer {
                 .name(careerDTO.getName())
                 .build();
     }
+
+
+    /**
+     * Method that assesses if all attributes of the DTO
+     * are null or all have their respective value.
+     *
+     * @author yfandica
+     *
+     * @param careerDTO Career data in DTO format
+     * @return true if it is empty / false if it has all the values
+     */
+    public static boolean isEmpty(CareerDTO careerDTO){
+        return careerDTO.getName() == null;
+
+    }
 }

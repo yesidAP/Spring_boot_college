@@ -1,8 +1,9 @@
 package com.example.college.service;
 
+import com.example.college.Enum.ErrorApi;
 import com.example.college.dto.StudentGetDTO;
 import com.example.college.dto.StudentPostDTO;
-import com.example.college.exception.NotDataFound;
+import com.example.college.exception.ErrorControllerApi;
 import com.example.college.mapper.MapperStudent;
 import com.example.college.model.Career;
 import com.example.college.model.Student;
@@ -14,6 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Student entity
+ * @author yfandica
+ */
 @Service
 public class StudentService implements IStudentService {
 
@@ -30,13 +35,14 @@ public class StudentService implements IStudentService {
     @Override
     public StudentGetDTO postStudent(StudentPostDTO studentPostDTO) {
 
-        if (studentPostDTO == null) return null;
+        if (MapperStudent.isEmpty(studentPostDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
 
         Career career = careerRepository.findById(studentPostDTO.getIdCareer())
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
+        System.out.println(studentPostDTO.getLastName());
         Student student = MapperStudent.toEntity(studentPostDTO);
-
+        System.out.println(student.getLastName());
         student.setCareer(career);
 
         studentRepository.save(student);
@@ -47,8 +53,10 @@ public class StudentService implements IStudentService {
     @Override
     public StudentGetDTO putStudent(Long id, StudentPostDTO studentPostDTO) {
 
+        if (MapperStudent.isEmpty(studentPostDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
+
         Student student = studentRepository.findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         if (studentPostDTO.getName() != null){
             student.setName(studentPostDTO.getName());
@@ -69,7 +77,7 @@ public class StudentService implements IStudentService {
 
             Career c = careerRepository
                     .findById(studentPostDTO.getIdCareer())
-                    .orElseThrow(NotDataFound::new);
+                    .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
             student.setCareer(c);
 
@@ -83,11 +91,11 @@ public class StudentService implements IStudentService {
     @Override
     public void deleteStudent(Long id) {
 
-        careerRepository
+        studentRepository
                 .findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
-        careerRepository.deleteById(id);
+        studentRepository.deleteById(id);
 
     }
 }

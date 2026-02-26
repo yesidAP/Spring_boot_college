@@ -1,9 +1,6 @@
 package com.example.college.dto;
 
 import lombok.*;
-
-import java.util.List;
-
 /**
  * Class DTO to subject entity
  * It will be used only for get-service
@@ -21,6 +18,6 @@ public class SubjectGetDTO {
     private String name;
     private Integer credits;
     private ProfessorDTO professorDTO;
-    private List<StudentGetDTO> studentList;
+
 
 }

@@ -33,23 +33,20 @@ public class Student {
     private String lastName;
     private Integer age;
     private Character gender;
-
-
     @Column(name = "entry_date")
     private Date entryDate;
 
     /**
      * FK for identifying the career entity
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_career")
     private Career career;
 
     /**
      * One-to-many relationship of student entity to course entity
      */
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     List<Course> courses = new ArrayList<>();
 
 

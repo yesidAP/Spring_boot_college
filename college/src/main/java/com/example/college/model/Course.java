@@ -2,8 +2,8 @@ package com.example.college.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Date;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class Course is the entity which it represents
@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id_student", "id_subject"}  ))
 public class Course {
 
     /**
@@ -29,8 +30,10 @@ public class Course {
     /**
      * FK for identifying the student entity
      */
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_student")
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Student student;
 
 
@@ -39,6 +42,7 @@ public class Course {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_subject")
+    @OnDelete(action = OnDeleteAction.RESTRICT)
     private Subject subject;
 
     private Double score;

@@ -51,4 +51,24 @@ public class MapperProfessor {
                 .entryDate(professorDTO.getEntryDate())
                 .build();
     }
+
+    /**
+     * Method that assesses whether all attributes of the DTO
+     * are null or all have their respective value.
+     *
+     * @author yfandica
+     *
+     * @param p Object of ProfessorDTO
+     * @return true if it is empty / false if it has all the values
+     */
+    public static boolean isEmpty(ProfessorDTO p){
+
+        if (p.getName() == null && p.getLastName() == null
+                && p.getAge() == null && p.getEntryDate() == null ){
+            return true;
+        }
+
+        return false;
+
+    }
 }

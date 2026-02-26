@@ -1,7 +1,8 @@
 package com.example.college.service;
 
+import com.example.college.Enum.ErrorApi;
 import com.example.college.dto.CareerDTO;
-import com.example.college.exception.NotDataFound;
+import com.example.college.exception.ErrorControllerApi;
 import com.example.college.mapper.MapperCareer;
 import com.example.college.model.Career;
 import com.example.college.repository.CareerRepository;
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Career entity
+ * @author yfandica
+ */
 @Service
 public class CareerService implements ICareerService {
 
@@ -26,6 +31,8 @@ public class CareerService implements ICareerService {
     @Override
     public CareerDTO postCareer(CareerDTO careerDTO) {
 
+        if (MapperCareer.isEmpty(careerDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
+
         //transform data in DTO format to entity format
         Career c = MapperCareer.toEntity(careerDTO);
 
@@ -39,8 +46,10 @@ public class CareerService implements ICareerService {
     @Override
     public CareerDTO putCareer(Long id, CareerDTO careerDTO) {
 
+        if (MapperCareer.isEmpty(careerDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
+
         Career c = careerRepository.findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         if (careerDTO.getName() != null){
             c.setName(careerDTO.getName());
@@ -54,7 +63,7 @@ public class CareerService implements ICareerService {
     public void deleteCareer(Long id) {
 
         careerRepository.findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         careerRepository.deleteById(id);
 

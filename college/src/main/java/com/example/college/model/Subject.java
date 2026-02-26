@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,7 +39,6 @@ public class Subject {
     /**
      * One-to-many relationship of subject entity to course entity
      */
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER)
     List<Course> courses = new ArrayList<>();
 }

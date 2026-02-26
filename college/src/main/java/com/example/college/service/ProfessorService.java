@@ -1,7 +1,8 @@
 package com.example.college.service;
 
+import com.example.college.Enum.ErrorApi;
 import com.example.college.dto.ProfessorDTO;
-import com.example.college.exception.NotDataFound;
+import com.example.college.exception.ErrorControllerApi;
 import com.example.college.mapper.MapperProfessor;
 import com.example.college.model.Professor;
 import com.example.college.repository.ProfessorRepository;
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Professor entity
+ * @author yfandica
+ */
 @Service
 public class ProfessorService implements IProfessor {
 
@@ -25,7 +30,7 @@ public class ProfessorService implements IProfessor {
     @Override
     public ProfessorDTO postProfessor(ProfessorDTO professorDTO) {
 
-        if (professorDTO == null) return null;
+        if (MapperProfessor.isEmpty(professorDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
 
         Professor professor = MapperProfessor.toEntity(professorDTO);
 
@@ -37,9 +42,11 @@ public class ProfessorService implements IProfessor {
     @Override
     public ProfessorDTO putProfessor(Long id, ProfessorDTO professorDTO) {
 
+        if (MapperProfessor.isEmpty(professorDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
+
         Professor professor = professorRepository
                 .findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         if(professorDTO.getName() != null){
             professor.setName(professorDTO.getName());
@@ -63,7 +70,7 @@ public class ProfessorService implements IProfessor {
 
         professorRepository
                 .findById(id)
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         professorRepository.deleteById(id);
 

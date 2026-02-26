@@ -1,9 +1,7 @@
 package com.example.college.mapper;
 
-import com.example.college.dto.CareerDTO;
 import com.example.college.dto.CourseGetDTO;
 import com.example.college.dto.CoursePostDTO;
-import com.example.college.model.Career;
 import com.example.college.model.Course;
 
 /**
@@ -28,6 +26,10 @@ public class MapperCourse {
 
         return CourseGetDTO.builder()
                 .id(course.getId())
+                .idStudent(course.getStudent().getId())
+                .idSubject(course.getSubject().getId())
+                .fullNameStudent(course.getStudent().getName()+" "+course.getStudent().getLastName() )
+                .nameSubject(course.getSubject().getName())
                 .score(course.getScore())
                 .build();
     }
@@ -48,5 +50,24 @@ public class MapperCourse {
                 .id(coursePostDTO.getId())
                 .score(coursePostDTO.getScore())
                 .build();
+    }
+
+    /**
+     * Method that assesses whether all attributes of the DTO
+     * are null or all have their respective value.
+     *
+     * @author yfandica
+     *
+     * @param c Object of CoursePostDTO
+     * @return true if it is empty / false if it has all the values
+     */
+    public static boolean isEmpty(CoursePostDTO c){
+
+        if (c.getIdStudent() == null && c.getIdSubject() == null
+                && c.getScore()== null ){
+            return true;
+        }
+
+        return false;
     }
 }

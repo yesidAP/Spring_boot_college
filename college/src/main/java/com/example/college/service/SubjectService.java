@@ -1,13 +1,13 @@
 package com.example.college.service;
 
+import com.example.college.Enum.ErrorApi;
 import com.example.college.dto.SubjectGetDTO;
 import com.example.college.dto.SubjectPostDTO;
-import com.example.college.exception.NotDataFound;
+import com.example.college.exception.ErrorControllerApi;
 import com.example.college.mapper.MapperSubject;
 import com.example.college.model.Professor;
 import com.example.college.model.Subject;
 import com.example.college.repository.ProfessorRepository;
-import com.example.college.repository.StudentRepository;
 import com.example.college.repository.SubjectRepository;
 import com.example.college.service.interfacesServ.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Subject entity
+ * @author yfandica
+ */
 @Service
 public class SubjectService implements ISubjectService {
 
@@ -34,11 +38,11 @@ public class SubjectService implements ISubjectService {
     @Override
     public SubjectGetDTO postSubject(SubjectPostDTO subjectPostDTO) {
 
-        if (subjectPostDTO == null) return null;
+        if (MapperSubject.isEmpty(subjectPostDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
 
         Professor professor = professorRepository.findById(subjectPostDTO
                 .getIdProfessor())
-                .orElseThrow(NotDataFound::new);
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         Subject subject = MapperSubject.toEntity(subjectPostDTO);
 
@@ -52,7 +56,10 @@ public class SubjectService implements ISubjectService {
     @Override
     public SubjectGetDTO putSubject(Long id, SubjectPostDTO subjectPostDTO) {
 
-        Subject subject = subjectRepository.findById(id).orElseThrow(NotDataFound::new);
+        if (MapperSubject.isEmpty(subjectPostDTO)) throw new ErrorControllerApi(ErrorApi.INVALID_INPUT);
+
+        Subject subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         if (subjectPostDTO.getName() != null){
 
@@ -63,7 +70,7 @@ public class SubjectService implements ISubjectService {
         }
         if (subjectPostDTO.getIdProfessor() != null){
             Professor professor = professorRepository.findById(subjectPostDTO.getIdProfessor())
-                    .orElseThrow(NotDataFound::new);
+                    .orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
             subject.setProfessor(professor);
         }
@@ -76,7 +83,7 @@ public class SubjectService implements ISubjectService {
     @Override
     public void deleteSubject(Long id) {
 
-        subjectRepository.findById(id).orElseThrow(NotDataFound::new);
+        subjectRepository.findById(id).orElseThrow(() -> new ErrorControllerApi(ErrorApi.NOT_EXITS_DATA));
 
         subjectRepository.deleteById(id);
 
