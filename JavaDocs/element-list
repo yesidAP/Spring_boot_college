@@ -1,0 +1,10 @@
+com.example.college
+com.example.college.controller
+com.example.college.dto
+com.example.college.Enum
+com.example.college.exception
+com.example.college.mapper
+com.example.college.model
+com.example.college.repository
+com.example.college.service
+com.example.college.service.interfacesServ
